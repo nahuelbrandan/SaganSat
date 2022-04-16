@@ -51,25 +51,33 @@ de una llamada a random diciendo que no pudo realizar una tarea el 10% de las ve
 
 ![TODO imagen con descripcion de la arquitectura]()
 
+## Requirements
+
+* Python >=3.6
+
 ## Installation
 
-### Manual
+Steps to install the project.
 
-TODO
+### Manual
+* Clone this repository
+* It's recommended create and activate a *virtual environment*, based in Python>=3.6
+* `make install`
 
 ### Docker
 
-TODO
+* TODO
 
 ## Run
 
-TODO
+* `make run`
+* Access to [http://localhost:8000/](http://localhost:8000/) for see details of how to make requests to the API.
 
-## Use
+## Usage
+
+Examples of requests to use the project
 
 TODO. 
-
-Examples of using
 
 ## Test
 
@@ -77,12 +85,10 @@ TODO
 
 ## TODO
 
-* Makefile
-* Docker
-* Logs messages
-* Comunicacion entre procesos
-* Instalable con setup
-* Investigar la mejor forma de ordenar las Tasks, para maximizar el payoff.
+* [ ] Docker
+* [ ] Logs messages
+* [ ] Comunicacion entre procesos
+* [ ] Investigar la mejor forma de ordenar las Tasks, para maximizar el payoff.
 
 ## Licence
 

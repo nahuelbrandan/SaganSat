@@ -4,9 +4,10 @@ from typing import List
 from fastapi import Body, APIRouter
 from starlette import status
 from starlette.requests import Request
+from starlette.responses import FileResponse
 
-from src import settings
-from src.models import Task, SystemDetails, TaskResponse
+from saganSat import settings
+from saganSat.models import Task, SystemDetails, TaskResponse
 
 router = APIRouter()
 
@@ -82,3 +83,12 @@ def process_tasks(
                                       "The 'rty' task was failed processed."],
     )
     return response
+
+
+@router.get(path='/favicon.ico', include_in_schema=False)
+def favicon():
+    """Get the favicon of the website.
+
+    This is requested in case that access from the navigator.
+    """
+    return FileResponse('./resources/img/favicon.ico')

@@ -1,8 +1,9 @@
+# !/usr/bin/env python
 """Main API Rest, to get and process the Tasks."""
 import uvicorn
 from fastapi import FastAPI
 
-from src import views, settings
+from saganSat import settings, views
 
 app = FastAPI()
 
