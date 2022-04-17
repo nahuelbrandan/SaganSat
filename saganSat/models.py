@@ -29,7 +29,10 @@ class TaskResponse(BaseModel):
         """Extras configs."""
         schema_extra = {
             "example": {
-                "details": ["The 'Pictures' task was successfully processed."]
+                "details": [
+                    "The task 'Pictures' was failed, by the Satellite '0'.",
+                    "The task 'Maintenance' was successfully done, by the Satellite '1'."
+                ]
             }
         }
 

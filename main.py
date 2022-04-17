@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from saganSat import settings, views
 from multiprocessing import Process, Pipe
 
+from saganSat.logs import logger
 from saganSat.satellites import Satellite
 
 app = FastAPI()
@@ -23,6 +24,7 @@ app.include_router(views.router)
 
 def build_satellites():
     """Create and run the satellites."""
+    logger.info('Creating and running the satellites.')
     satellites_pipes = []
     for i in range(settings.SATELLITES_QUANTITY):
         paren_conn, child_conn = Pipe()

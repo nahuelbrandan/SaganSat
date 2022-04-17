@@ -7,6 +7,7 @@ from starlette.requests import Request
 from starlette.responses import FileResponse
 
 from saganSat import settings
+from saganSat.logs import logger
 from saganSat.models import Task, SystemDetails, TaskResponse
 from saganSat.utils import process_the_tasks_to_group_to_maximize_the_payload
 
@@ -82,7 +83,7 @@ def process_tasks(
     for i, conn_pipe in enumerate(request.app.satellites_pipes):
         responses.extend(conn_pipe.recv())
 
-    print(f'ALL RESPONSES: {responses}')
+    logger.info(f'ALL RESPONSES: {responses}')
 
     response = TaskResponse(details=responses)
     return response

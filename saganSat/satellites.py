@@ -2,6 +2,8 @@
 import random
 from multiprocessing.connection import Connection
 
+from saganSat.logs import logger
+
 
 class Satellite:
     """Satellite class."""
@@ -12,20 +14,20 @@ class Satellite:
 
     def run(self):
         """Process the tasks that receive."""
-        print(f'The satellite {self.id} is successfully on flight. Waiting for tasks to process.')
+        logger.info(f'The satellite {self.id} is successfully on flight. Waiting for tasks to process.')
 
         while True:
             asd = self.connection_pipe.recv()
-            print(f'se encontró un evento nuevo {asd} en el satelite {self.id}')
+            logger.info(f'se encontró un evento nuevo {asd} en el satelite {self.id}')
 
             operation_result = [self._get_operation_result(x) for x in asd]
-            print(operation_result)
+            logger.info(operation_result)
             self.connection_pipe.send(operation_result)
 
     def _get_operation_result(self, x):
         if random.random() < 0.10:
-            operation_result = f"The task {x.name} could not be done, by the Satellite {self.id}."
+            operation_result = f"The task '{x.name}' was failed, by the Satellite '{self.id}'."
         else:
-            operation_result = f"The task {x.name} was successfully done, by the Satellite {self.id}."
+            operation_result = f"The task '{x.name}' was successfully done, by the Satellite '{self.id}'."
 
         return operation_result

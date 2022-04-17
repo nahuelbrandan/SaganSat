@@ -17,3 +17,4 @@ LICENCE = {
 }
 
 SATELLITES_QUANTITY = 2
+LOG_FILENAME = 'logs.log'
