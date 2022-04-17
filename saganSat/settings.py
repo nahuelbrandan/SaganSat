@@ -15,3 +15,5 @@ LICENCE = {
     "name": "GNU GENERAL PUBLIC LICENSE V3",
     "url": "https://www.gnu.org/licenses/gpl-3.0.html"
 }
+
+SATELLITES_QUANTITY = 2

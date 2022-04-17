@@ -8,6 +8,7 @@ from starlette.responses import FileResponse
 
 from saganSat import settings
 from saganSat.models import Task, SystemDetails, TaskResponse
+from saganSat.utils import process_the_tasks_to_group_to_maximize_the_payload
 
 router = APIRouter()
 
@@ -71,17 +72,19 @@ def process_tasks(
     ),
 ):
     """Schedule and tasking the tasks."""
-    # TODO process the list of tasks.
+    tasks_grouped = process_the_tasks_to_group_to_maximize_the_payload(tasks)
 
-    # TODO result of the process
+    # for test
+    for i, conn_pipe in enumerate(request.app.satellites_pipes):
+        conn_pipe.send([tasks[i]])
 
-    response = TaskResponse(
-        tasks_sended_to_the_satellite_1=['asd'],
-        tasks_sended_to_the_satellite_2=['qwe', 'rty'],
-        responses_of_the_satellite_1=["The 'asd' task was successfully processed."],
-        responses_of_the_satellite_2=["The 'qwe' task was successfully processed.",
-                                      "The 'rty' task was failed processed."],
-    )
+    responses = []
+    for i, conn_pipe in enumerate(request.app.satellites_pipes):
+        responses.extend(conn_pipe.recv())
+
+    print(f'ALL RESPONSES: {responses}')
+
+    response = TaskResponse(details=responses)
     return response
 
 
