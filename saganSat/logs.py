@@ -7,7 +7,7 @@ from saganSat import settings
 logger = logging.getLogger()
 level = logging.DEBUG if settings.DEBUG else logging.INFO
 logger.setLevel(level)
-formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s', '%m-%d-%Y %H:%M:%S')
+formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s', '%Y-%m-%d %H:%M:%S')
 
 stdout_handler = logging.StreamHandler(sys.stdout)
 stdout_handler.setLevel(level)
