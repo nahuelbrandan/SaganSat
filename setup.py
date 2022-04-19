@@ -9,6 +9,7 @@ from setuptools import (
 
 from saganSat import settings
 
+NAME = 'saganSat'
 SCRIPT = ['main.py']
 
 with open("requirements.txt") as f:
@@ -17,7 +18,7 @@ with open("requirements.txt") as f:
 here = os.path.dirname(os.path.realpath(__file__))
 
 setup(
-    name='saganSat',
+    name=NAME,
     version=settings.VERSION,
     url=settings.CONTACT['url'],
     license=settings.LICENCE['name'],
@@ -27,10 +28,10 @@ setup(
     author_email=settings.CONTACT['email'],
     description=settings.DESCRIPTION,
     long_description=settings.LONG_DESCRIPTION,
-    packages=find_packages(exclude=["tests*"]),
+    packages=find_packages(exclude=["tests*", "*.log"]),
     include_package_data=True,
     entry_points={
-        'console_scripts': ['saganSat=main:main']
+        'console_scripts': [f'{NAME}=main:main']
     },
     test_suite="tests",
     platforms="any",

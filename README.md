@@ -24,16 +24,27 @@ recurso. No hay un límite a la cantidad de recursos que una tarea puede usar o 
 de recursos distintos que hay.
 - payoff: El beneficio que genera ejecutar la tarea.
 
-Ejemplo:
-task1:
-task2:
-task3:
-task4:
-name="fotos", recursos=[1, 5], payoff=10
-name="mantenimiento", recursos=[1, 2], payoff=1
-name="pruebas", recursos=[5, 6], payoff=1
-name="fsck", recursos=[1, 6], payoff=0.1
-En éste caso una buena asignación sería la siguiente:
+### Ejemplo
+
+* task1
+  * name="fotos"
+  * recursos=[1, 5]
+  * payoff=10
+* task2
+  * name="mantenimiento"
+  * recursos=[1, 2]
+  * payoff=1
+* task3
+  * name="pruebas" 
+  * recursos=[5, 6]
+  * payoff=1
+* task4
+  * name="fsck"
+  * recursos=[1, 6]
+  * payoff=0.1
+
+En este caso una buena asignación sería la siguiente:
+
 - La estación terrena le da task1 al satélite 1.
 - La estación terrena le da task2 y task3 al satélite 2.
 - La task4 no se puede realizar.

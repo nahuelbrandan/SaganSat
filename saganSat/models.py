@@ -21,8 +21,8 @@ class Task(BaseModel):
         }
 
 
-class TaskResponse(BaseModel):
-    """Task Response model, response to the client of the operation."""
+class TaskResult(BaseModel):
+    """Task Result model, response to the client of the operation."""
     details: List[str]
 
     class Config:
