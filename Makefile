@@ -8,7 +8,7 @@ run:
 refresh: install run
 
 test:
-	pytest -v --cov=sagansat tests/
+	pytest -v tests/
 
 help:
 	python setup.py --help-commands
