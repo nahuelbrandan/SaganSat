@@ -2,6 +2,7 @@
 from typing import List
 
 from fastapi import Body, APIRouter
+from fastapi.openapi.docs import get_swagger_ui_html
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import FileResponse
@@ -128,4 +129,17 @@ def favicon():
 
     This is requested in case that access from the navigator.
     """
-    return FileResponse('./resources/img/favicon.ico')
+    return FileResponse('./resources/img/SaganSat_logo.png')
+
+
+@router.get(
+    path="/docs",
+    include_in_schema=False
+)
+def overridden_swagger():
+    """Override default endpoint /docs, for custom changes."""
+    return get_swagger_ui_html(
+        openapi_url="/openapi.json",
+        title=f"{settings.TITLE} - Swagger",
+        swagger_favicon_url="/favicon.ico",
+    )

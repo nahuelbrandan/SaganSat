@@ -94,13 +94,6 @@ TODO.
 
 TODO
 
-## TODO
-
-* [ ] Docker
-* [ ] Logs messages
-* [ ] Comunicacion entre procesos
-* [ ] Investigar la mejor forma de ordenar las Tasks, para maximizar el payoff.
-
 ## Licence
 
 This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE, Version 3.

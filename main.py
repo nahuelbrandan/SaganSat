@@ -9,7 +9,9 @@ from multiprocessing import Process, Pipe
 from saganSat.logs import logger
 from saganSat.satellites import Satellite
 
-app = FastAPI()
+app = FastAPI(
+    docs_url=None
+)
 
 # metadata
 app.title = settings.TITLE
