@@ -1,18 +1,16 @@
-"""Test API request.
-
-This tests works as an integration tests.
-"""
+"""Test API root endpoint."""
 from urllib.parse import urlparse
 
 from fastapi.testclient import TestClient
-from saganSat import settings
 
 from main import app
+from saganSat import settings
 
 client = TestClient(app)
 
 
-def test_read_main():
+def test_read_root():
+    """Read the root endpoint, that return detail of the system."""
     response = client.get("/")
 
     assert response.status_code == 200

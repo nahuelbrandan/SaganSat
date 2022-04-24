@@ -1,7 +1,7 @@
 """Endpoints REST of the API."""
 from typing import List
 
-from fastapi import Body, APIRouter
+from fastapi import Body, APIRouter, HTTPException
 from fastapi.openapi.docs import get_swagger_ui_html
 from starlette import status
 from starlette.requests import Request
@@ -23,7 +23,7 @@ router = APIRouter()
 def get_system_info(
     request: Request,
 ):
-    """Get system details."""
+    """Get system detail."""
     base_url = str(request.base_url).strip("/")
     docs = f"{base_url}/docs"
 
@@ -101,22 +101,31 @@ def process_tasks(
     can only be assigned tasks that do not have repeated resources.
     * The assignment of tasks must **maximize the payoff**.
     """
+
+    if not tasks:
+        detail = "No list of Tasks to create was provided."
+        logger.info(detail)
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=detail,
+        )
+
     # TODO cada una de estas acciones podrian ser un metodo de la class GroundStation
     #  group_tasks()
     #  send_grouped_tasks()
     #  get_responses_of_satellites()
-    satellites_pipes = request.app.satellites_pipes
     tasks_grouped = group_tasks_to_run_per_satellite(tasks)
+
+    satellites_pipes = request.app.satellites_pipes
     for i, tg in enumerate(tasks_grouped):
         satellites_pipes[i].send(tasks_grouped[i])
 
-    responses = []
-    for i, conn_pipe in enumerate(request.app.satellites_pipes):
-        responses.extend(conn_pipe.recv())
+    responses_from_satellites = []
+    for i, _ in enumerate(tasks_grouped):
+        responses_from_satellites.extend(satellites_pipes[i].recv())
 
-    logger.info(f'ALL RESPONSES: {responses}')
-
-    response = TaskResult(details=responses)
+    logger.info(f'All responses obtained from satellites: {responses_from_satellites}')
+    response = TaskResult(detail=responses_from_satellites)
     return response
 
 

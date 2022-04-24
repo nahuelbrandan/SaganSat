@@ -9,10 +9,10 @@
 >> Somewhere, something incredible is waiting to be known. ― Carl Sagan.
 ---
 
-
 ## Description
 
-El sistema de vuelo consiste de una estación terrena y de dos satelites de vuelo. Cada uno de estos elementos es un proceso independiente del sistema operativo.
+El sistema de vuelo consiste de una estación terrena y de dos satelites de vuelo. 
+Cada uno de estos elementos es un proceso independiente del sistema operativo.
 
 La estacion terrena recibe una lista de tareas, y éste le indica a cada uno de los satelites que tareas tendra que realizar.
 
@@ -71,8 +71,8 @@ de una llamada a random diciendo que no pudo realizar una tarea el 10% de las ve
 Steps to install the project.
 
 ### Manual
-* Clone this repository
-* It's recommended create and activate a *virtual environment*, based in Python>=3.6
+* Clone this repository.
+* It's recommended create and activate a *virtual environment*, based in Python>=3.6.
 * `make install`
 
 ### Docker
@@ -92,7 +92,9 @@ TODO.
 
 ## Test
 
-TODO
+`make test`
+
+In addition to executing the existing test suite, this command generates a coverage report.
 
 ## Licence
 

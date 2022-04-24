@@ -23,22 +23,22 @@ class Task(BaseModel):
 
 class TaskResult(BaseModel):
     """Task Result model, response to the client of the operation."""
-    details: List[str]
+    detail: List[str]
 
     class Config:
         """Extras configs."""
         schema_extra = {
             "example": {
-                "details": [
-                    "The task 'Pictures' was failed, by the Satellite '0'.",
-                    "The task 'Maintenance' was successfully done, by the Satellite '1'."
+                "detail": [
+                    "The task 'Pictures' was failed, by the Satellite Sat-0.",
+                    "The task 'Maintenance' was successfully, by the Satellite Sat-1."
                 ]
             }
         }
 
 
 class SystemDetails(BaseModel):
-    """System details model."""
+    """System detail model."""
     title: str
     description: str
     version: str
