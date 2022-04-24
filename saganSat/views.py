@@ -127,7 +127,7 @@ def favicon():
 
     This is requested in case that access from the navigator.
     """
-    return FileResponse('./resources/img/SaganSat_logo.png')
+    return FileResponse(settings.LOGO_PATH)
 
 
 @router.get(

@@ -388,31 +388,46 @@ def test_multiple_tasks_that_not_have_a_resource_in_common_but_with_large_list_o
         assert re.match(exp, resp_detail[i])
 
 
-def test_multiple_tasks_that_not_have_a_resource_in_common_but_with_very_large_list_of_resources_required():
-    """Test post multiple tasks, that not have resources in common, but with very large list of resources required.
+def test_case_multiples_groups_in_same_level():
+    """Test post tasks, case multiples groups in the same level.
 
-    Since the tasks not have resources in common, so one satellite could run all of them.
+    For example, case where could exist groups (A, B) y (A, C).
     """
     payload = json.dumps(
         [
             {
                 "name": "Pictures",
-                "resources": list(range(0, 10000)),
+                "resources": [1, 2],
                 "payoff": 10
             },
             {
                 "name": "Maintenance",
-                "resources": list(range(10000, 20000)),
-                "payoff": 1
+                "resources": [1, 3],
+                "payoff": 5
             },
             {
                 "name": "Proofs",
-                "resources": list(range(20000, 30000)),
-                "payoff": 1
+                "resources": [1, 4],
+                "payoff": 6
             },
             {
                 "name": "Files",
-                "resources": list(range(30000, 40000)),
+                "resources": [1, 5],
+                "payoff": 12
+            },
+            {
+                "name": "Camera",
+                "resources": [2, 3],
+                "payoff": 15
+            },
+            {
+                "name": "GPS",
+                "resources": [2, 4],
+                "payoff": 20
+            },
+            {
+                "name": "Infrared",
+                "resources": [2, 5],
                 "payoff": 0.1
             }
         ]
@@ -423,10 +438,10 @@ def test_multiple_tasks_that_not_have_a_resource_in_common_but_with_very_large_l
     assert list(response.json().keys()) == ["detail"]
 
     expected_detail = [
-        r"^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$",
-        r"^The task 'Maintenance' was (successful|failed), by the Satellite Sat-0.$",
-        r"^The task 'Proofs' was (successful|failed), by the Satellite Sat-0.$",
         r"^The task 'Files' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'GPS' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'Proofs' was (successful|failed), by the Satellite Sat-1.$",
+        r"^The task 'Camera' was (successful|failed), by the Satellite Sat-1.$",
     ]
 
     resp_detail = response.json()['detail']

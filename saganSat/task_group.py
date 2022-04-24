@@ -1,4 +1,6 @@
 """Task Group module."""
+from typing import Tuple
+
 from saganSat.models import Task
 
 
@@ -15,3 +17,9 @@ class TasksGroup:
         self.tasks.append(task)
         self.payoff += task.payoff
         self.resources.extend(task.resources)
+
+    def add_tasks(self, tasks: Tuple[Task]):
+        """Add tasks to the task group."""
+
+        for task in tasks:
+            self.add_task(task)

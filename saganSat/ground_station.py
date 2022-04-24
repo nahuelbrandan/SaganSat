@@ -1,10 +1,10 @@
 """Ground Station module."""
-from itertools import islice
-from typing import List
+from typing import List, Tuple
 
 from saganSat import settings
 from saganSat.models import Task
 from saganSat.task_group import TasksGroup
+from saganSat.utils import powerset
 
 
 class GroundStation:
@@ -55,8 +55,7 @@ class GroundStation:
 
         return responses_from_satellites
 
-    @staticmethod
-    def _generate_all_posibles_task_groups(tasks: List[Task]) -> List[TasksGroup]:
+    def _generate_all_posibles_task_groups(self, tasks: List[Task]) -> List[TasksGroup]:
         """Generate all posibles tasks task_groups, taking into account the constraints.
 
         Args:
@@ -65,20 +64,16 @@ class GroundStation:
         Returns:
             List[TasksGroup]: list of Tasks grouped.
         """
-        all_groups = []
+        all_groups_combinations = powerset(tasks)
+        valid_groups = [group for group in all_groups_combinations if self._group_is_valid(group)]
 
-        for i, t in enumerate(tasks):
-            task_group = TasksGroup()
-            task_group.add_task(t)
+        response = []
+        for group in valid_groups:
+            tg = TasksGroup()
+            tg.add_tasks(group)
+            response.append(tg)
 
-            for u in islice(tasks, i + 1, len(tasks)):
-                # if not have resources in common
-                if not any(x in task_group.resources for x in u.resources):
-                    task_group.add_task(u)
-
-            all_groups.append(task_group)
-
-        return all_groups
+        return response
 
     @staticmethod
     def _select_task_groups(tasks_groups: List[TasksGroup]) -> List[TasksGroup]:
@@ -100,3 +95,17 @@ class GroundStation:
                 break
 
         return selected_groups
+
+    @staticmethod
+    def _group_is_valid(item: Tuple[Task]):
+        """Check that not exist Tasks with repeated resources required."""
+        if not item:
+            return False
+
+        resources = []
+        for i in item:
+            if any(x in i.resources for x in resources):
+                return False
+            resources.extend(i.resources)
+
+        return True

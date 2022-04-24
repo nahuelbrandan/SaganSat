@@ -21,12 +21,6 @@ class SatellitesManager:
             p.terminate()
 
     @staticmethod
-    def get_satellites_names():
-        """Get satellites names."""
-        satellites_names = [f'Sat-{sat_id}' for sat_id in range(settings.SATELLITES_QUANTITY)]
-        return satellites_names
-
-    @staticmethod
     def _build_satellites():
         """Create and run the satellites."""
         logger.info('Creating and running the satellites.')

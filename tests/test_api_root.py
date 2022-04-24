@@ -21,3 +21,19 @@ def test_read_root():
                   "For more information see the /docs endpoint."
     assert response.json()['description'] == description
     assert urlparse(response.json()['docs']).path == "/docs"
+
+
+def test_favicon():
+    """Get the favicon from endpoint."""
+    response = client.get("/favicon.ico")
+
+    assert response.status_code == 200
+    assert response.headers['content-type'] == 'image/png'
+
+
+def test_docs():
+    """Get the swagger docs from endpoint."""
+    response = client.get("/docs")
+
+    assert response.status_code == 200
+    assert response.headers['content-type'] == 'text/html; charset=utf-8'
