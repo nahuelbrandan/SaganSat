@@ -230,3 +230,108 @@ def test_multiple_tasks_that_not_have_a_resource_in_common():
 
     for i, exp in enumerate(expected_detail):
         assert re.match(exp, resp_detail[i])
+
+
+def test_multiple_tasks_that_all_have_a_resource_in_common():
+    """Test post multiple tasks, that all have resources in common.
+
+    Since the tasks not have resources in common, so one satellite could run all of them.
+    """
+    payload = json.dumps(
+        [
+            {
+                "name": "Pictures",
+                "resources": [1, 2],
+                "payoff": 10
+            },
+            {
+                "name": "Maintenance",
+                "resources": [1, 3],
+                "payoff": 1
+            },
+            {
+                "name": "Proofs",
+                "resources": [1, 4],
+                "payoff": 1
+            },
+            {
+                "name": "Files",
+                "resources": [1, 5],
+                "payoff": 0.1
+            }
+        ]
+    )
+    response = client.post("/tasks", data=payload)
+
+    assert response.status_code == 201
+    assert list(response.json().keys()) == ["detail"]
+
+    expected_detail = [
+        r"^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'Maintenance' was (successful|failed), by the Satellite Sat-1.$",
+    ]
+
+    resp_detail = response.json()['detail']
+
+    assert len(resp_detail) == len(expected_detail)
+
+    for i, exp in enumerate(expected_detail):
+        assert re.match(exp, resp_detail[i])
+
+
+def test_multiple_tasks_case_max_payoff_is_not_recommend_to_use():
+    """Test post multiple tasks, case element with max payoff is not recommeded to use.
+
+    """
+    payload = json.dumps(
+        [
+            {
+                "name": "Pictures",
+                "resources": [1, 2],
+                "payoff": 10
+            },
+            {
+                "name": "Maintenance",
+                "resources": [1, 3],
+                "payoff": 9
+            },
+            {
+                "name": "Proofs",
+                "resources": [2, 4],
+                "payoff": 9
+            },
+            {
+                "name": "Files",
+                "resources": [3, 4],
+                "payoff": 0.1
+            },
+            {
+                "name": "Maintenance2",
+                "resources": [1, 3],
+                "payoff": 9
+            },
+            {
+                "name": "Proofs2",
+                "resources": [2, 4],
+                "payoff": 9
+            },
+        ]
+    )
+    response = client.post("/tasks", data=payload)
+
+    assert response.status_code == 201
+    assert list(response.json().keys()) == ["detail"]
+
+    expected_detail = [
+        r"^The task 'Maintenance' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'Proofs' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'Maintenance2' was (successful|failed), by the Satellite Sat-1.$",
+        r"^The task 'Proofs2' was (successful|failed), by the Satellite Sat-1.$",
+    ]
+
+    resp_detail = response.json()['detail']
+
+    assert len(resp_detail) == len(expected_detail)
+
+    for i, exp in enumerate(expected_detail):
+        assert re.match(exp, resp_detail[i])

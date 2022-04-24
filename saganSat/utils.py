@@ -21,11 +21,13 @@ def generate_all_posibles_groups(tasks):
     for i in range(len(tasks)):
         tmp = [tasks[i]]
         tmp_payoff = tasks[i].payoff
+        tmp_resources = tasks[i].resources
 
         for j in range(i + 1, len(tasks)):
-            if not any(x in tasks[i].resources for x in tasks[j].resources):
+            if not any(x in tmp_resources for x in tasks[j].resources):
                 tmp.append(tasks[j])
                 tmp_payoff += tasks[j].payoff
+                tmp_resources.extend(tasks[j].resources)
 
         group = {
             'elems': tmp,
