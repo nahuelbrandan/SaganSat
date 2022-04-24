@@ -1,7 +1,7 @@
 """Endpoints REST of the API."""
 from typing import List
 
-from fastapi import Body, APIRouter, HTTPException
+from fastapi import Body, APIRouter
 from fastapi.openapi.docs import get_swagger_ui_html
 from starlette import status
 from starlette.requests import Request
@@ -9,9 +9,9 @@ from starlette.responses import FileResponse
 
 from saganSat import settings
 from saganSat.exceptions import EmptyTasksException
+from saganSat.ground_station import GroundStation
 from saganSat.logs import logger
 from saganSat.models import Task, SystemDetails, TaskResult
-from saganSat.utils import group_tasks_to_run_per_satellite
 
 router = APIRouter()
 
@@ -105,22 +105,16 @@ def process_tasks(
     if not tasks:
         raise EmptyTasksException()
 
-    # TODO cada una de estas acciones podrian ser un metodo de la class GroundStation
-    #  group_tasks()
-    #  send_grouped_tasks()
-    #  get_responses_of_satellites()
-    tasks_grouped = group_tasks_to_run_per_satellite(tasks)
+    gs = GroundStation(
+        satellites_pipes=request.app.satellites_pipes
+    )
 
-    satellites_pipes = request.app.satellites_pipes
-    for i, tg in enumerate(tasks_grouped):
-        satellites_pipes[i].send(tasks_grouped[i])
+    gs.group_tasks_to_run_per_satellite(tasks)
+    gs.send_grouped_tasks_to_the_satellites()
+    responses = gs.get_responses_of_satellites()
 
-    responses_from_satellites = []
-    for i, _ in enumerate(tasks_grouped):
-        responses_from_satellites.extend(satellites_pipes[i].recv())
-
-    logger.info(f'All responses obtained from satellites: {responses_from_satellites}')
-    response = TaskResult(detail=responses_from_satellites)
+    logger.info(f'All responses obtained from satellites: {responses}')
+    response = TaskResult(detail=responses)
     return response
 
 
