@@ -62,22 +62,20 @@ de una llamada a random diciendo que no pudo realizar una tarea el 10% de las ve
 
 ![TODO imagen con descripcion de la arquitectura]()
 
-## Requirements
+## Pre requisites
 
-* Python >=3.6
+* Python>=3.6
+
+This project was only tested with Python 3.6, but could theoretically run with Python >= 3.6.
 
 ## Installation
 
-Steps to install the project.
+Steps to install the project:
 
 ### Manual
 * Clone this repository.
 * It's recommended create and activate a *virtual environment*, based in Python>=3.6.
 * `make install`
-
-### Docker
-
-* TODO
 
 ## Run
 
@@ -86,7 +84,7 @@ Steps to install the project.
 
 ## Usage
 
-Examples of requests to use the project
+Examples of requests to use the project:
 
 TODO. 
 
@@ -94,7 +92,12 @@ TODO.
 
 `make test`
 
-In addition to executing the existing test suite, this command generates a coverage report.
+In addition to executing the test suite, this command generates a coverage report too.
+
+## To improve
+
+* Through performance testing, using a list of tasks with required resources of the order of millions of elements, 
+a considerable drop in performance is obtained, the system taking a long time to finish processing.
 
 ## Licence
 
