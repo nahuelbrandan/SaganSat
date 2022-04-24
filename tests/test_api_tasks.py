@@ -59,7 +59,7 @@ def test_only_one_task():
     assert list(response.json().keys()) == ["detail"]
 
     expected_detail = [
-        "^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$"
+        "^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$",
     ]
 
     resp_detail = response.json()['detail']
@@ -93,7 +93,7 @@ def test_two_tasks_that_not_have_resources_in_common():
 
     expected_detail = [
         "^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$",
-        "^The task 'Maintenance' was (successful|failed), by the Satellite Sat-1.$"
+        "^The task 'Maintenance' was (successful|failed), by the Satellite Sat-1.$",
     ]
 
     resp_detail = response.json()['detail']
@@ -127,7 +127,7 @@ def test_two_tasks_that_have_a_resource_in_common():
 
     expected_detail = [
         "^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$",
-        "^The task 'Maintenance' was (successful|failed), by the Satellite Sat-1.$"
+        "^The task 'Maintenance' was (successful|failed), by the Satellite Sat-1.$",
     ]
 
     resp_detail = response.json()['detail']
@@ -172,7 +172,56 @@ def test_nominal():
     expected_detail = [
         r"^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$",
         r"^The task 'Maintenance' was (successful|failed), by the Satellite Sat-1.$",
-        r"^The task 'Proofs' was (successful|failed), by the Satellite Sat-1.$"
+        r"^The task 'Proofs' was (successful|failed), by the Satellite Sat-1.$",
+    ]
+
+    resp_detail = response.json()['detail']
+
+    assert len(resp_detail) == len(expected_detail)
+
+    for i, exp in enumerate(expected_detail):
+        assert re.match(exp, resp_detail[i])
+
+
+def test_multiple_tasks_that_not_have_a_resource_in_common():
+    """Test post multiple tasks, that not have resources in common.
+
+    Since the tasks not have resources in common, so one satellite could run all of them.
+    """
+    payload = json.dumps(
+        [
+            {
+                "name": "Pictures",
+                "resources": [1],
+                "payoff": 10
+            },
+            {
+                "name": "Maintenance",
+                "resources": [2],
+                "payoff": 1
+            },
+            {
+                "name": "Proofs",
+                "resources": [3],
+                "payoff": 1
+            },
+            {
+                "name": "Files",
+                "resources": [4],
+                "payoff": 0.1
+            }
+        ]
+    )
+    response = client.post("/tasks", data=payload)
+
+    assert response.status_code == 201
+    assert list(response.json().keys()) == ["detail"]
+
+    expected_detail = [
+        r"^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'Maintenance' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'Proofs' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'Files' was (successful|failed), by the Satellite Sat-0.$",
     ]
 
     resp_detail = response.json()['detail']

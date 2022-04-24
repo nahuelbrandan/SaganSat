@@ -51,6 +51,27 @@ def sort_groups_by_payoff(tasks_grouped):
     return sorted_groups
 
 
+def select_groups(tasks_grouped, number_of_tasks):
+    """
+
+    Args:
+        tasks_grouped ():
+        number_of_tasks ():
+    """
+    # case all tasks are in a same group
+    if len(tasks_grouped[0]) == number_of_tasks:
+        return [tasks_grouped[0]]
+
+    selected_groups = [tasks_grouped[0]]
+
+    for tg in tasks_grouped[1:]:
+        if not any(i in tasks_grouped[0]['elems'] for i in tg['elems']):
+            selected_groups.append(tg)
+            break
+
+    return selected_groups
+
+
 def group_tasks_to_run_per_satellite(tasks: List[Task]):
     """Group the tasks to be run per Satellite, taking into account the constraints.
 
@@ -62,14 +83,15 @@ def group_tasks_to_run_per_satellite(tasks: List[Task]):
                           At most, it will contain N groups, whit N equal a number of Satellites.
     """
     number_of_groups = settings.SATELLITES_QUANTITY
+    number_of_tasks = len(tasks)
 
     # Case of fewer tasks than satellites
-    if len(tasks) <= number_of_groups:
+    if number_of_tasks <= number_of_groups:
         return [[x] for x in tasks]
 
     tasks_grouped = generate_all_posibles_groups(tasks)
     tasks_grouped = sort_groups_by_payoff(tasks_grouped)
+    tasks_selected = select_groups(tasks_grouped, number_of_tasks)
 
-    response = tasks_grouped[:number_of_groups]
-    response = [x['elems'] for x in response]
+    response = [x['elems'] for x in tasks_selected]
     return response
