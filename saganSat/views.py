@@ -8,6 +8,7 @@ from starlette.requests import Request
 from starlette.responses import FileResponse
 
 from saganSat import settings
+from saganSat.exceptions import EmptyTasksException
 from saganSat.logs import logger
 from saganSat.models import Task, SystemDetails, TaskResult
 from saganSat.utils import group_tasks_to_run_per_satellite
@@ -102,12 +103,7 @@ def process_tasks(
     """
 
     if not tasks:
-        detail = "No list of Tasks to create was provided."
-        logger.info(detail)
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=detail,
-        )
+        raise EmptyTasksException()
 
     # TODO cada una de estas acciones podrian ser un metodo de la class GroundStation
     #  group_tasks()
