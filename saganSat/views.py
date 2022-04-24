@@ -81,10 +81,9 @@ def process_tasks(
 
     ### Returns:
 
-    * List[str]: obtained result for each one of the tasks. The options are:
+    * List[str]: obtained result for each runner tasks. The options are:
         * Successfully run by the Satellite X.
-        * Failed run by the Satellite X.
-        * Could not be managed by the Ground Station.
+        * Failure run by the Satellite X.
 
     ### Task:
 

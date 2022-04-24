@@ -31,7 +31,7 @@ class TaskResult(BaseModel):
             "example": {
                 "detail": [
                     "The task 'Pictures' was failed, by the Satellite Sat-0.",
-                    "The task 'Maintenance' was successfully, by the Satellite Sat-1."
+                    "The task 'Maintenance' was successful, by the Satellite Sat-1."
                 ]
             }
         }
@@ -49,7 +49,7 @@ class SystemDetails(BaseModel):
         schema_extra = {
             "example": {
                 "title": "SaganSat",
-                "description": "A description of the system.",
+                "description": "A brief description of the system.",
                 "version": '0.0.1',
                 "docs": 'http://localhost:8000/docs',
             }

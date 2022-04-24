@@ -59,7 +59,7 @@ def test_only_one_task():
     assert list(response.json().keys()) == ["detail"]
 
     expected_detail = [
-        "^The task 'Pictures' was (successfully|failed), by the Satellite Sat-0.$"
+        "^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$"
     ]
 
     resp_detail = response.json()['detail']
@@ -92,8 +92,8 @@ def test_two_tasks_that_not_have_resources_in_common():
     assert list(response.json().keys()) == ["detail"]
 
     expected_detail = [
-        "^The task 'Pictures' was (successfully|failed), by the Satellite Sat-0.$",
-        "^The task 'Maintenance' was (successfully|failed), by the Satellite Sat-1.$"
+        "^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$",
+        "^The task 'Maintenance' was (successful|failed), by the Satellite Sat-1.$"
     ]
 
     resp_detail = response.json()['detail']
@@ -126,8 +126,8 @@ def test_two_tasks_that_have_a_resource_in_common():
     assert list(response.json().keys()) == ["detail"]
 
     expected_detail = [
-        "^The task 'Pictures' was (successfully|failed), by the Satellite Sat-0.$",
-        "^The task 'Maintenance' was (successfully|failed), by the Satellite Sat-1.$"
+        "^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$",
+        "^The task 'Maintenance' was (successful|failed), by the Satellite Sat-1.$"
     ]
 
     resp_detail = response.json()['detail']
@@ -170,9 +170,9 @@ def test_nominal():
     assert list(response.json().keys()) == ["detail"]
 
     expected_detail = [
-        r"^The task 'Pictures' was (successfully|failed), by the Satellite Sat-0.$",
-        r"^The task 'Maintenance' was (successfully|failed), by the Satellite Sat-1.$",
-        r"^The task 'Proofs' was (successfully|failed), by the Satellite Sat-1.$"
+        r"^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'Maintenance' was (successful|failed), by the Satellite Sat-1.$",
+        r"^The task 'Proofs' was (successful|failed), by the Satellite Sat-1.$"
     ]
 
     resp_detail = response.json()['detail']

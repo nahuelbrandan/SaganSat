@@ -11,7 +11,6 @@ satellites_manager = SatellitesManager()
 app = FastAPI(
     docs_url=None,
     on_startup=satellites_manager.launch_satellites(),
-    # on_shutdown=satellites_manager.land_satellites()
 )
 
 # metadata
@@ -28,11 +27,10 @@ app.include_router(views.router)
 app.satellites_pipes = settings.SATELLITES_PIPES
 
 
-def run_server():
+def main():
     """Run server."""
-    # noinspection PyTypeChecker
     uvicorn.run(app, host="127.0.0.1", port=8000)
 
 
 if __name__ == "__main__":
-    run_server()
+    main()

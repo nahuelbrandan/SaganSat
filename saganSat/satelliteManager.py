@@ -3,7 +3,7 @@ from multiprocessing import Process, Pipe
 
 from saganSat import settings
 from saganSat.logs import logger
-from saganSat.satellites import Satellite
+from saganSat.satellite import Satellite
 
 
 class SatellitesManager:
