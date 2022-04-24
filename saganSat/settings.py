@@ -7,7 +7,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 VERSION = '0.0.1'
 TITLE = 'SaganSat'
 DESCRIPTION = 'SaganSat, simulate the tasking of a satellites fleet.'
-LONG_DESCRIPTION = "TODO SaganSat, simulate the tasking of a satellites fleet."
 CONTACT = {
     "name": "Project Support",
     "url": "https://github.com/nahuelbrandan/SaganSat",

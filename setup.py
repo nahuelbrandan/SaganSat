@@ -27,7 +27,6 @@ setup(
     install_requires=required,
     author_email=settings.CONTACT['email'],
     description=settings.DESCRIPTION,
-    long_description=settings.LONG_DESCRIPTION,
     packages=find_packages(exclude=["tests*", "*.log"]),
     include_package_data=True,
     entry_points={
