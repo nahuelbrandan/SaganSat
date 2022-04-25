@@ -69,7 +69,11 @@ be based on a call to random saying that it couldn't perform a task 10% of the t
 
 ## Design
 
-TODO
+* The connection between the Client and the Ground Station is made with an **API REST**, 
+implemented with the framework [FastAPI](https://fastapi.tiangolo.com/).
+* The connection between the Ground Station and the Satellites, 
+where each satellite is an independent process,
+is made with [Pipes](https://docs.python.org/3/library/multiprocessing.html#pipes-and-queues), one per Satellite.
 
 ## Pre requisites
 
@@ -79,9 +83,6 @@ This project was only tested with Python 3.6, but could theoretically run with P
 
 ## Installation
 
-Steps to install the project:
-
-### Manual
 * Clone this repository.
 * It's recommended create and activate a *virtual environment*, based in Python>=3.6.
 * `make install`
@@ -94,10 +95,14 @@ Steps to install the project:
 ## Usage
 
 You could make a POST requests to the endpoint [http://localhost:8000/tasks](http://localhost:8000/tasks), 
-defining in the BODY the list of Tasks that want to perform.
+defining in the Body the list of Tasks that you want to perform.
 
 This could be done by any REST client, for example [Postman](https://www.postman.com/), 
-or could be done by the [/docs](http://localhost:8000/tasks) endpoint.
+or could be done in the [/docs](http://localhost:8000/tasks) endpoint, which has a UI that allows it.
+
+Example using the [/docs]() endpoint.
+
+![usage example](resources/gif/usage_example.gif)
 
 ## Test
 
