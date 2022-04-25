@@ -74,6 +74,11 @@ implemented with the framework [FastAPI](https://fastapi.tiangolo.com/).
 * The connection between the Ground Station and the Satellites, 
 where each satellite is an independent process,
 is made with [Pipes](https://docs.python.org/3/library/multiprocessing.html#pipes-and-queues), one per Satellite.
+* The principle of [Memoization](https://en.wikipedia.org/wiki/Memoization#:~:text=In%20computing%2C%20memoization%20or%20memoisation,the%20same%20inputs%20occur%20again.) was used, so as not to make recalculations when seeing if there are tasks that have resources in common.
+
+  The idea was: if a group of N Tasks have resources in common, 
+  that means that at least one subgroup of 2 Tasks have resources en common.
+  improving in 3X the time performance.
 
 ## Pre requisites
 
@@ -95,7 +100,7 @@ This project was only tested with Python 3.6, but could theoretically run with P
 ## Usage
 
 You could make a POST requests to the endpoint [http://localhost:8000/tasks](http://localhost:8000/tasks), 
-defining in the Body the list of Tasks that you want to perform.
+defining in the Body in JSON format, the list of Tasks that you want to perform.
 
 This could be done by any REST client, for example [Postman](https://www.postman.com/), 
 or could be done in the [/docs](http://localhost:8000/tasks) endpoint, which has a UI that allows it.

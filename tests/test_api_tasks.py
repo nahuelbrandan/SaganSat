@@ -388,6 +388,55 @@ def test_multiple_tasks_that_not_have_a_resource_in_common_but_with_large_list_o
         assert re.match(exp, resp_detail[i])
 
 
+def test_multiple_tasks_that_not_have_a_resource_in_common_but_with_very_large_list_of_resources_required():
+    """Test post multiple tasks, that not have resources in common, but with very large list of resources required.
+
+    Since the tasks not have resources in common, so one satellite could run all of them.
+    """
+    payload = json.dumps(
+        [
+            {
+                "name": "Pictures",
+                "resources": list(range(0, 10000)),
+                "payoff": 10
+            },
+            {
+                "name": "Maintenance",
+                "resources": list(range(10000, 20000)),
+                "payoff": 1
+            },
+            {
+                "name": "Proofs",
+                "resources": list(range(20000, 30000)),
+                "payoff": 1
+            },
+            {
+                "name": "Files",
+                "resources": list(range(30000, 40000)),
+                "payoff": 0.1
+            }
+        ]
+    )
+    response = client.post("/tasks", data=payload)
+
+    assert response.status_code == 201
+    assert list(response.json().keys()) == ["detail"]
+
+    expected_detail = [
+        r"^The task 'Pictures' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'Maintenance' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'Proofs' was (successful|failed), by the Satellite Sat-0.$",
+        r"^The task 'Files' was (successful|failed), by the Satellite Sat-0.$",
+    ]
+
+    resp_detail = response.json()['detail']
+
+    assert len(resp_detail) == len(expected_detail)
+
+    for i, exp in enumerate(expected_detail):
+        assert re.match(exp, resp_detail[i])
+
+
 def test_case_multiples_groups_in_same_level():
     """Test post tasks, case multiples groups in the same level.
 

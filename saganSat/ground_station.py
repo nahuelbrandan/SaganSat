@@ -4,7 +4,7 @@ from typing import List, Tuple
 from saganSat import settings
 from saganSat.models import Task
 from saganSat.task_group import TasksGroup
-from saganSat.utils import powerset
+from saganSat.utils import powerset, combinations_n
 
 
 class GroundStation:
@@ -13,6 +13,7 @@ class GroundStation:
     This class represent a Ground Station.
     That could receive tasks to administrate and send to the satellites.
     """
+
     def __init__(self, satellites_pipes):
         self.satellites_pipes = satellites_pipes
         self.grouped_tasks = []
@@ -64,6 +65,10 @@ class GroundStation:
         Returns:
             List[TasksGroup]: list of Tasks grouped.
         """
+        all_groups_combinations_of_2_elements = combinations_n(tasks, 2)
+        self.tasks_that_have_resources_in_common = [g for g in all_groups_combinations_of_2_elements if
+                                                    self._have_resources_in_common(g)]
+
         all_groups_combinations = powerset(tasks)
         valid_groups = [group for group in all_groups_combinations if self._group_is_valid(group)]
 
@@ -96,16 +101,28 @@ class GroundStation:
 
         return selected_groups
 
-    @staticmethod
-    def _group_is_valid(item: Tuple[Task]):
+    def _group_is_valid(self, item: Tuple[Task]):
         """Check that not exist Tasks with repeated resources required."""
         if not item:
             return False
 
-        resources = []
-        for i in item:
-            if any(x in i.resources for x in resources):
-                return False
-            resources.extend(i.resources)
+        if len(item) == 1:
+            return True
+
+        for i, e in enumerate(item):
+            for f in item[i:]:
+                if (e, f) in self.tasks_that_have_resources_in_common:
+                    return False
 
         return True
+
+    @staticmethod
+    def _have_resources_in_common(g: Tuple[Task]):
+        """Check if Tasks in g have resources in common.
+
+        len(g) must be equal 2.
+        """
+        a = g[0]
+        b = g[1]
+        if any(x in a.resources for x in b.resources):
+            return True
